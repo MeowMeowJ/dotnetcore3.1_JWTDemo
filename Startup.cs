@@ -51,7 +51,7 @@ namespace Jwt
                 //// 3. 基于需求/需要Requirement
                 options.AddPolicy("AdminRequirement", options =>
                 {
-                    options.Requirements.Add(new AdminRequirement() { Name = "lailiu"}); // 完全自定义
+                    options.Requirements.Add(new AdminRequirement() { Name = "laoliu" }); // 完全自定义
                 });
             });
 
@@ -59,11 +59,12 @@ namespace Jwt
 
             SecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("laukitlaukitlaukit"));
             services.AddAuthentication("Bearer")
-                .AddJwtBearer(options => {
+                .AddJwtBearer(options =>
+                {
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         // 3 + 2
-                        
+
                         // 验证密钥
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = securityKey,
@@ -83,7 +84,7 @@ namespace Jwt
                     };
                 });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

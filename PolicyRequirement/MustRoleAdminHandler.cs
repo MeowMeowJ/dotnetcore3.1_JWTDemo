@@ -22,7 +22,7 @@ namespace Jwt.PolicyRequirement
 
     public class MustRoleAdminHandler : AuthorizationHandler<AdminRequirement>
     {
-        public Task HandleAsync(AuthorizationHandlerContext context)
+        public override Task HandleAsync(AuthorizationHandlerContext context)
         {
             var requirement = context.Requirements.FirstOrDefault();
 
