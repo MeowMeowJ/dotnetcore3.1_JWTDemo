@@ -29,7 +29,10 @@ namespace Jwt.Controllers
         //[Authorize(Roles = "Admin")]
         //[Authorize(Roles = "User,Admin")]
         //[Authorize(Policy = "AdminOrUser")]
-        [Authorize(Policy = "AdminAndUser")]
+        //[Authorize(Policy = "AdminAndUser")]
+        //[Authorize(Policy = "AdminPolicy1")]
+        //[Authorize(Policy = "AdminClaim2")]
+        [Authorize(Policy = "AdminRequirement")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Jwt.PolicyRequirement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,17 +33,29 @@ namespace Jwt
 
             services.AddAuthorization(options =>
             {
-                //options.AddPolicy("AdminOrUser", options =>
-                //{
-                //    options.RequireRole("Admin, User").Build();
-                //});
-                //options.AddPolicy("AdminOrUser", options => {
-                //    options.RequireRole("Admin", "User").Build();
-                //});
-                options.AddPolicy("AdminAndUser", options => {
-                    options.RequireRole("Admin").RequireRole("User").Build();
+                // 策略授权三大块
+                // 1.基于角色授权
+                options.AddPolicy("AdminPolicy1", options =>
+                {
+                    options.RequireRole("Admin").Build(); // Role
+                });
+
+                // 2. 基于声明
+                options.AddPolicy("AdminClaim2", options =>
+                {
+                    //options.RequireClaim(ClaimTypes.Role, "Admin", "User").Build(); // ClaimType
+                    //options.RequireClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin", "User").Build();
+                    options.RequireClaim("laoliu", "liu").Build(); // ClaimType
+                });
+
+                //// 3. 基于需求/需要Requirement
+                options.AddPolicy("AdminRequirement", options =>
+                {
+                    options.Requirements.Add(new AdminRequirement() { Name = "lailiu"}); // 完全自定义
                 });
             });
+
+            services.AddSingleton<IAuthorizationHandler, MustRoleAdminHandler>();
 
             SecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("laukitlaukitlaukit"));
             services.AddAuthentication("Bearer")
@@ -67,6 +82,8 @@ namespace Jwt
                         ValidateLifetime = true,
                     };
                 });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
