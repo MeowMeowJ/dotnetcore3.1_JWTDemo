@@ -25,7 +25,11 @@ namespace Jwt.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize(Roles = "User")]
+        //[Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "User,Admin")]
+        //[Authorize(Policy = "AdminOrUser")]
+        [Authorize(Policy = "AdminAndUser")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

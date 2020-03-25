@@ -28,6 +28,20 @@ namespace Jwt
         {
             services.AddControllers();
 
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("AdminOrUser", options =>
+                //{
+                //    options.RequireRole("Admin, User").Build();
+                //});
+                //options.AddPolicy("AdminOrUser", options => {
+                //    options.RequireRole("Admin", "User").Build();
+                //});
+                options.AddPolicy("AdminAndUser", options => {
+                    options.RequireRole("Admin").RequireRole("User").Build();
+                });
+            });
+
             SecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("laukitlaukitlaukit"));
             services.AddAuthentication("Bearer")
                 .AddJwtBearer(options => {

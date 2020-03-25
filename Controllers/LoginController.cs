@@ -30,7 +30,12 @@ namespace Jwt.Controllers
                 // 过期日期
                 expires: DateTime.Now.AddHours(1),
                 // 声明
-                claims: new Claim[] {}
+                claims: new Claim[] {
+                    new Claim("laoliu", "liu"),
+                    new Claim(ClaimTypes.Role, "Admin"),
+                    new Claim(ClaimTypes.Role, "User"),
+                    new Claim(ClaimTypes.Email, "Email@qq.com"),
+                }
             );
        
 
